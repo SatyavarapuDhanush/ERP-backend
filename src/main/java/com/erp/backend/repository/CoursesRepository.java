@@ -9,5 +9,6 @@ import com.erp.backend.model.CoursesModel;
 public interface CoursesRepository extends JpaRepository<CoursesModel,Long>{
 
     Optional<CoursesModel> findByCourseId(Long courseId);
+    Optional<CoursesModel> findByBranch(String branch);
     
 }

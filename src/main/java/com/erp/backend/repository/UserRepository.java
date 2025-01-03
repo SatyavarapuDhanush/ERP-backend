@@ -1,5 +1,6 @@
 package com.erp.backend.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,5 @@ import com.erp.backend.model.UserModel;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel,Long>{
   public Optional<UserModel> findByUserId(Long userId);
+  List<UserModel> findByBranch(String branch);
 }

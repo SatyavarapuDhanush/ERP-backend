@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService{
         if (selecteduser.getEmail() != null) {
             user.setEmail(selecteduser.getEmail());
         }
+        if(selecteduser.getBranch()!=null){
+            user.setBranch(selecteduser.getBranch());
+        }
         if (selecteduser.getPassword() != null) {
             user.setPassword(selecteduser.getPassword());
         }

@@ -1,12 +1,13 @@
 package com.erp.backend.model;
 
-import org.antlr.v4.runtime.misc.NotNull;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,17 +24,20 @@ import lombok.Setter;
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @NotNull
     @Column(name="userid", nullable = false)
     private Long userId;
-    @NotNull
     @Column(name="name", nullable = false)
     private String name;
-    @NotNull
+    @Column(name="branch")
+    private String branch;
     @Column(name="email", nullable = false)
     private String email;
-    @NotNull
+    
     @Column(name="password", nullable = false)
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name="courseId",nullable = true)
+    private CoursesModel course;
 
 }

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.erp.backend.dto.CourseDto;
 import com.erp.backend.exception.CourseNotFoundException;
 import com.erp.backend.model.CoursesModel;
+import com.erp.backend.model.UserModel;
 import com.erp.backend.repository.CoursesRepository;
+import com.erp.backend.repository.UserRepository;
 import com.erp.backend.service.CoursesService;
 
 @Service
@@ -18,11 +20,32 @@ public class CoursesServiceimpl implements CoursesService{
 
     @Autowired
     public CoursesRepository CJR;
-    @Override
-    public CoursesModel addCourse(CoursesModel newCourse) {
-        CoursesModel course=CJR.save(newCourse);
-        return course;
+
+    @Autowired
+    public UserRepository UJR;
+
+    public CoursesServiceimpl(CoursesRepository CJR, UserRepository UJR) {
+        this.CJR = CJR;
+        this.UJR = UJR;
     }
+
+        @Override
+        public CoursesModel addCourse(CoursesModel newCourse) {  
+            if (newCourse.getBranch() == null || newCourse.getBranch().isEmpty()) {
+                throw new IllegalArgumentException("Branch must be specified for the course.");
+            }
+            CoursesModel course=CJR.save(newCourse);
+            List<UserModel> users = UJR.findByBranch(newCourse.getBranch());
+            //Optional<List<UserModel>> users= UJR.findByBranch(newCourse.getBranch()).orElseThrow(()-> new CourseNotFoundException("Course not found with Id:"+ newCourse.getCourseId())); 
+            course.setUsers(users);
+            for (UserModel user : users) {
+              //  user.setCourseCode(savedCourse.getCoursecode());
+                user.setCourse(course); // Optional: Establish relationship if needed
+            }
+            UJR.saveAll(users);
+
+            return course;
+        }
     @Override
     public List<CoursesModel> getAllCourses() {
         return CJR.findAll();
