@@ -10,4 +10,5 @@ public class ErpBackendApplication {
 		SpringApplication.run(ErpBackendApplication.class, args);
 	}
 
+	
 }
